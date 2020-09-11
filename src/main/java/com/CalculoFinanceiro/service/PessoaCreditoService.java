@@ -80,13 +80,23 @@ public class PessoaCreditoService {
 
 		validarValorNullEZero(valorPedido);
 
-		int quantidadeParcela = valorPedido.divide(salarioCalculadoComIdadeEValorMaximo, RoundingMode.UP).intValue();
+		int quantidadeParcela = valorPedido.divide(salarioCalculadoComIdadeEValorMaximo, RoundingMode.DOWN).intValue();
 		if (quantidadeParcela == 0) {
 			quantidadeParcela = 1;
+		}
+		
+		for(int i = quantidadeParcela;i<valorPedido.doubleValue();i++) {
+			BigDecimal a = new BigDecimal(i);
+			BigDecimal b = valorPedido.divide(a,2,RoundingMode.DOWN);
+			if(valorPedido.remainder(b.multiply(a)).doubleValue() == 0) {
+				quantidadeParcela = i;
+				break;
+			}
 		}
 
 		return quantidadeParcela;
 	}
+
 
 	//faixa salarial da pessoa a parcela poderá comprometer  calculoFaixaSalarial
 	public BigDecimal calculoFaixaSalarial(BigDecimal salario) {
