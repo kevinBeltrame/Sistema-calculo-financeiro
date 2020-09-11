@@ -66,7 +66,7 @@ public class TestCacularQuantidadeParcerla {
 	public void quantidade_parcela_2_ou_mais() {
 		
 		// cenario
-		int parcela = 3;
+		int parcela = 2;
 		valorPedido = new BigDecimal(1722);
 		// acao
 		int parcelaRetornada = pessoaCreditoService.cacularQuantidadeParcerla(salarioCalculadoComIdadeEValorMaximo, valorPedido);
