@@ -59,7 +59,8 @@ public class PessoaExceptionHandler extends ResponseEntityExceptionHandler {
 			WebRequest request) {
 		String mensagemUsuario = messageSource.getMessage("recurso.valor-nao-aceito-negativo", null,
 				LocaleContextHolder.getLocale());
-		String mensagemDesenvolvedor = "valor negativo nao e aceito para fazer operação !";
+		String mensagemDesenvolvedor = "valor negativo,zero e maior que 3 casas decimal nao e aceito para fazer operação !";
+
 		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
