@@ -88,7 +88,7 @@ public class PessoaCreditoService {
 		for(int i = quantidadeParcela;i<valorPedido.doubleValue();i++) {
 			BigDecimal a = new BigDecimal(i);
 			BigDecimal b = valorPedido.divide(a,2,RoundingMode.DOWN);
-			if(valorPedido.remainder(b.multiply(a)).doubleValue() == 0) {
+			if(valorPedido.remainder(b.multiply(a)).doubleValue() == 0 && quantidadeParcela < quantidadeParcela*10) {
 				quantidadeParcela = i;
 				break;
 			}
