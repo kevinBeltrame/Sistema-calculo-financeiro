@@ -17,6 +17,13 @@ public class PessoaCreditoService {
 
 	public ResponseEntity<PessoaCredito> obterPessoaCredito(Pessoa pessoa, BigDecimal valorPedido) {
 		BigDecimal salarioCalculadoComIdadeEValorMaximo = valorMaximodaParcela(pessoa);
+		int b = valorPedido.intValue();
+
+		BigDecimal quantidadeDeCassaDecimal = valorPedido.subtract(new BigDecimal(b));
+
+		if (quantidadeDeCassaDecimal.scale() >= 3) {
+			throw new NumberFormatException();
+		}
 		try {
 			validarValorNullEZero(valorPedido);
 
