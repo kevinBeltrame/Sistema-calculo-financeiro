@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.CalculoFinanceiro.domain.exception.ValorPedidoNullOuMenorQue1Exception;
+import com.CalculoFinanceiro.domain.service.PessoaCreditoService;
+
 @SpringBootTest
 public class TestePassarValorPedidoNull {
 
@@ -28,7 +31,24 @@ public class TestePassarValorPedidoNull {
 
 		} catch (Exception e) {
 			// verificacao
-			assertEquals(e.getClass(), IllegalArgumentException.class);
+			assertEquals(e.getClass(), ValorPedidoNullOuMenorQue1Exception.class);
+		}
+	}
+	
+	@Test
+	public void passar_valor_0() {
+		// cenario
+
+		BigDecimal valorPedido = BigDecimal.ZERO;
+
+		// acao
+		try {
+			pessoaCreditoService.validarValorNullEZero(valorPedido);
+			fail();
+
+		} catch (Exception e) {
+			// verificacao
+			assertEquals(e.getClass(), ValorPedidoNullOuMenorQue1Exception.class);
 		}
 	}
 

@@ -1,5 +1,7 @@
 package com.CalculoFinanceiro.service;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -11,7 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.CalculoFinanceiro.model.Pessoa;
+import com.CalculoFinanceiro.domain.exception.IdadeInferiorA21Exception;
+import com.CalculoFinanceiro.domain.model.Pessoa;
+import com.CalculoFinanceiro.domain.service.PessoaCreditoService;
+
 
 @SpringBootTest
 public class TestCalculoPercentualIdade {
@@ -25,7 +30,7 @@ public class TestCalculoPercentualIdade {
 
 	@BeforeEach
 	public void setUp() {
-		pessoa = new Pessoa("Andrea Ramos", 31, new BigDecimal(6496.00));
+		pessoa = new Pessoa(null,31,"Andrea Ramos", new BigDecimal(6496.00));
 		porcentagemRecebida = new BigDecimal(0);
 		salario = pessoa.getSalario().doubleValue();
 	}
@@ -173,16 +178,11 @@ public class TestCalculoPercentualIdade {
 		salario *= 0;
 		pessoa.setIdade(20);
 		// acao
-		porcentagemRecebida = pessoaCreditoService.calculoPercentualIdade(pessoa);
-		// verificacao
-		assertEquals(porcentagemRecebida.doubleValue(), salario);
-
-		pessoa.setIdade(21);
-		// cenario
-		// acao
-		porcentagemRecebida = pessoaCreditoService.calculoPercentualIdade(pessoa);
-		// verificacao
-		assertNotEquals(porcentagemRecebida.doubleValue(), salario);
-
+		try {
+			porcentagemRecebida = pessoaCreditoService.calculoPercentualIdade(pessoa);
+			fail();
+		}catch (IdadeInferiorA21Exception ex) {
+			assertThatExceptionOfType(IdadeInferiorA21Exception.class);
+		}
 	}
 }

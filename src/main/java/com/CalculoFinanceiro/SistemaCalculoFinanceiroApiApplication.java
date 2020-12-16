@@ -8,7 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.CalculoFinanceiro.config.Url;
+import com.CalculoFinanceiro.core.Url;
 
 
 @SpringBootApplication
@@ -20,7 +20,7 @@ public class SistemaCalculoFinanceiroApiApplication {
 	@Bean
 	public WebClient webClient(WebClient.Builder builder) {
 		
-		String protocoloDNS = url.getProtocolo()+url.getDNS();
+		String protocoloDNS = url.getDns();
 		
 		return builder
 				.baseUrl(protocoloDNS)

@@ -1,5 +1,6 @@
 package com.CalculoFinanceiro.service;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -12,8 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.CalculoFinanceiro.model.Pessoa;
-import com.CalculoFinanceiro.service.exception.DivisaoPorZero;
+import com.CalculoFinanceiro.domain.exception.DivisaoPorZeroException;
+import com.CalculoFinanceiro.domain.model.Pessoa;
+import com.CalculoFinanceiro.domain.service.PessoaCreditoService;
+
 
 @SpringBootTest
 public class TestCalculoFaixaSalarial {
@@ -21,8 +24,8 @@ public class TestCalculoFaixaSalarial {
 	@Autowired
 	private PessoaCreditoService pessoaCreditoService;
 
-	Pessoa pessoa = new Pessoa("Andrea Ramos", 31, new BigDecimal(6496.00));
-
+	Pessoa pessoa = new Pessoa(null,31,"Andrea Ramos", new BigDecimal(6496.00));
+//
 	BigDecimal salario;
 	BigDecimal porcentagem;
 	BigDecimal valor;
@@ -30,7 +33,7 @@ public class TestCalculoFaixaSalarial {
 
 	@BeforeEach
 	public void setUp() {
-		pessoa = new Pessoa("Andrea Ramos", 31, new BigDecimal(6496.00));
+		pessoa = new Pessoa(null,31,"Andrea Ramos", new BigDecimal(6496.00));
 		salario = pessoa.getSalario();
 		porcentagem = BigDecimal.ZERO;
 
@@ -260,30 +263,23 @@ public class TestCalculoFaixaSalarial {
 		assertEquals(valordoComprometimento, valor);
 
 	}
-
 	@Test
-	public void calcular_compromedimento_divisao_por_0_test() {
+	public void idade_menor_e_igual_20_teste() {
 
 		// cenario
 
-		pessoa.setSalario(new BigDecimal(1000));
+				pessoa.setSalario(new BigDecimal(999.99));
 
-		salario = pessoa.getSalario().multiply(new BigDecimal(0.9));
-		porcentagem = porcentagem.add(new BigDecimal(0.05));
-		valor = salario.multiply(porcentagem);
+				salario = pessoa.getSalario().multiply(new BigDecimal(0.9));
+				porcentagem = porcentagem.add(new BigDecimal(0.45));
+				valor = salario.multiply(porcentagem);
 
-		/* ========== Execução ========== */
-		try {
-			// acao
-			valordoComprometimento = pessoaCreditoService.calculoFaixaSalarial(salario);
-			fail("deveria lançar um Exception");
-		} catch (Exception e) {
-			// verificacao
-			assertEquals(e.getMessage(), null);
-			assertEquals(e.getClass(), DivisaoPorZero.class);
-
-		}
-
+				try {
+					valordoComprometimento = pessoaCreditoService.calculoFaixaSalarial(salario);
+					fail();
+				}catch (DivisaoPorZeroException ex) {
+					assertThatExceptionOfType(DivisaoPorZeroException.class);
+				}
+		
 	}
-
 }

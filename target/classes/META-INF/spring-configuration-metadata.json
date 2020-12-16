@@ -1,0 +1,37 @@
+{
+  "groups": [
+    {
+      "name": "configuracao.cors",
+      "type": "com.CalculoFinanceiro.core.property.ConfiguracaoCors",
+      "sourceType": "com.CalculoFinanceiro.core.property.ConfiguracaoCors"
+    },
+    {
+      "name": "url",
+      "type": "com.CalculoFinanceiro.core.Url",
+      "sourceType": "com.CalculoFinanceiro.core.Url"
+    }
+  ],
+  "properties": [
+    {
+      "name": "configuracao.cors.mapping",
+      "type": "java.lang.String",
+      "sourceType": "com.CalculoFinanceiro.core.property.ConfiguracaoCors"
+    },
+    {
+      "name": "configuracao.cors.origins",
+      "type": "java.lang.String",
+      "sourceType": "com.CalculoFinanceiro.core.property.ConfiguracaoCors"
+    },
+    {
+      "name": "url.dns",
+      "type": "java.lang.String",
+      "sourceType": "com.CalculoFinanceiro.core.Url"
+    },
+    {
+      "name": "url.localizacao",
+      "type": "java.lang.String",
+      "sourceType": "com.CalculoFinanceiro.core.Url"
+    }
+  ],
+  "hints": []
+}

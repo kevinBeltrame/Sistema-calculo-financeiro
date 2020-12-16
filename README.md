@@ -1,1 +1,1 @@
-# sistema-calculo-financeiro
+# Calculo-credito-desejado

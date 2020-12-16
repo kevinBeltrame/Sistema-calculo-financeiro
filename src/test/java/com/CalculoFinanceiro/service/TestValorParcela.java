@@ -13,7 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.CalculoFinanceiro.model.Pessoa;
+import com.CalculoFinanceiro.domain.model.Pessoa;
+import com.CalculoFinanceiro.domain.service.PessoaCreditoService;
+
 
 @SpringBootTest
 public class TestValorParcela {
@@ -31,7 +33,7 @@ public class TestValorParcela {
 
 	@BeforeEach
 	public void setUp() {
-		pessoa = new Pessoa("Andrea Ramos", 31, new BigDecimal(6496.00));
+		pessoa = new Pessoa(null,31,"Andrea Ramos", new BigDecimal(6496.00));
 		valorParcela = BigDecimal.ZERO;
 		valorPedido = BigDecimal.ZERO;
 		quantidaeParcela = BigDecimal.ZERO;

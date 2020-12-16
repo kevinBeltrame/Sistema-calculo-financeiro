@@ -11,8 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.CalculoFinanceiro.model.Pessoa;
-import com.CalculoFinanceiro.model.PessoaCredito;
+import com.CalculoFinanceiro.api.model.PessoaCreditoModel;
+import com.CalculoFinanceiro.domain.exception.ValorPedidoNullOuMenorQue1Exception;
+import com.CalculoFinanceiro.domain.model.Pessoa;
+import com.CalculoFinanceiro.domain.service.PessoaCreditoService;
 
 @SpringBootTest
 public class TestObterPessoaCredito {
@@ -22,13 +24,15 @@ public class TestObterPessoaCredito {
 
 	Pessoa pessoa;
 	BigDecimal valorPedido;
-	PessoaCredito pessoaCredito;
+	PessoaCreditoModel pessoaCredito;
 	BigDecimal salarioCalculadoComIdadeEValorMaximo;
+	String mensagem = "Valor Pedido e inferior ou igual a 0";
 
 
 	@BeforeEach
 	public void setUp() {
-		pessoa = new Pessoa("Andrea Ramos", 31, new BigDecimal(6496.00));
+		//pessoa = new Pessoa("Andrea Ramos", 31, new BigDecimal(6496.00));
+		pessoa = new Pessoa(null,31,"Andrea Ramos", new BigDecimal(6496.00));
 		valorPedido = BigDecimal.ZERO;
 		salarioCalculadoComIdadeEValorMaximo = pessoaCreditoService.valorMaximodaParcela(pessoa);
 
@@ -80,8 +84,8 @@ public class TestObterPessoaCredito {
 			fail("deveria lançar um Exception");
 		} catch (Exception e) {
 			// verificacao
-			assertEquals(e.getMessage(), null);
-			assertEquals(e.getClass(), NumberFormatException.class);
+			assertEquals(e.getMessage(), mensagem);
+			assertEquals(e.getClass(), ValorPedidoNullOuMenorQue1Exception.class);
 		}
 
 	}

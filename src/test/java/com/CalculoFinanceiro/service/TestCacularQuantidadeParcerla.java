@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.CalculoFinanceiro.model.Pessoa;
+import com.CalculoFinanceiro.domain.model.Pessoa;
+import com.CalculoFinanceiro.domain.service.PessoaCreditoService;
 
 @SpringBootTest
 public class TestCacularQuantidadeParcerla {
@@ -27,7 +28,7 @@ public class TestCacularQuantidadeParcerla {
 
 	@BeforeEach
 	public void setUp() {
-		pessoa = new Pessoa("Andrea Gomes", 22, new BigDecimal(4304.00));
+		pessoa = new Pessoa(null, 22,"Andrea Gomes", new BigDecimal(4304.00));
 
 		quantidadeParcela = 0;
 		salario = pessoa.getSalario().doubleValue();
@@ -66,7 +67,7 @@ public class TestCacularQuantidadeParcerla {
 	public void quantidade_parcela_2_ou_mais() {
 		
 		// cenario
-		int parcela = 2;
+		int parcela = 3;
 		valorPedido = new BigDecimal(1722);
 		// acao
 		int parcelaRetornada = pessoaCreditoService.cacularQuantidadeParcerla(salarioCalculadoComIdadeEValorMaximo, valorPedido);
@@ -75,35 +76,5 @@ public class TestCacularQuantidadeParcerla {
 		
 		assertEquals(parcela, parcelaRetornada);
 
-	}
-	
-	@Test
-	public void passandoValoresNegativos() {
-		
-		
-		try {
-			// cenario
-			valorPedido = new BigDecimal(-1722);
-			// acao
-			pessoaCreditoService.cacularQuantidadeParcerla(salarioCalculadoComIdadeEValorMaximo, valorPedido);
-		} catch (Exception e) {
-			// verificacao			
-			assertEquals(e.getClass(), NumberFormatException.class);
-		}
-	}
-	
-	@Test
-	public void passandoValoresNull() {
-		
-		// cenario
-		valorPedido = null;
-		// acao
-		try {
-			pessoaCreditoService.cacularQuantidadeParcerla(salarioCalculadoComIdadeEValorMaximo, valorPedido);
-		} catch (Exception e) {
-			// verificacao			
-			assertEquals(e.getClass(), IllegalArgumentException.class);
-		}
-	}
-
+	}	
 }
